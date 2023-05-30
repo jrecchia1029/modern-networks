@@ -42,11 +42,12 @@ During a SSU the control plane of the switch does go offline.  However, the last
 - DCS-7300X, DCS-7320X, DCS-7300X3
 
 ##### Features NOT Supported
-NOTE: SSU still may not be supported on a device if the device is running one of the protocols below.
-- VRRP
-- BFD
-- PTP
-- VXLAN routing
+**NOTE**: SSU still may not be supported on a device if the device is running one of the protocols below.
+
+* VRRP
+* BFD
+* PTP
+* VXLAN routing
 
 If that is in fact the case, another upgrade method like MLAG ISSU must be used.
 
@@ -58,7 +59,7 @@ In order to achieve a hitless upgrade, it is crucial that the STP agent on the s
 
 STP agent restartability requires consistent configuration between the peers of STP, LACP, MLAG, and switchport parameters. Additionaly, events triggering an STP state machine change, such as a flapping ethernet interface, may also briefly prevent the STP agent from being restartable. 
 
-> Note: If the STP agent is not restartable due to an STP state machine change, the resolution is to prevent any new state changes from occurring (by shutting down or fixing a flapping interface) and wait ~30 seconds for STP to become stable.
+> **Note**: If the STP agent is not restartable due to an STP state machine change, the resolution is to prevent any new state changes from occurring (by shutting down or fixing a flapping interface) and wait ~30 seconds for STP to become stable.
 
 The restartable state of this agent can be seen by issuing the command `show spanning tree instance detail`
 <pre>
@@ -161,7 +162,7 @@ mlag configuration
    reload-delay non-mlag <b>0</b>
 </pre>
 
-Since these switches are only layer 2 in our design, it won't be running any routing protocols so we do not need to set reload delay timers to give any time for routing protocols to restart and converge. Instead, we want all interfaces to jump immediately into an up state and begin forwarding traffic immediately.
+Since these switches are only layer 2 in our design, it won't be running any routing protocols so we do not need to set reload delay timers to give any time for routing processes to restart and converge. Instead, we want all interfaces to jump immediately into an up state and begin forwarding traffic immediately.
 
 Before kicking off the hitless upgrade, it is best to make sure STP is in a restartable state using the command `show spanning-tree instance detail` as mentioned earlier. This is an extra step just to be safe since we would also see a warning if we issued the `show reload fast-boot` or `reload fast-boot` command while the STP agent is not restartable.
 
