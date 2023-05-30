@@ -12,16 +12,14 @@ With MLAG (multi-chassis link aggregation), two physical switches are linked to 
 Check [https://aristanetworks.force.com/AristaCommunity/s/article/mlag-issu](https://aristanetworks.force.com/AristaCommunity/s/article/mlag-issu) for step-by-step instructions.
 
 High Level Overview:
-* Check the SSU process compatibility (see Platforms Supported and Features Supported - Verify with Account Team with any questions.)
-* Prepare switch for upgrade.
-* Disable unsupported features. 
-* Check the CPU for any unexpected traffic.
-* If spanning tree is enabled, check that all edge ports are configured as such and that the spanning tree agent is restartable.
-* Check to see that there are no flapping interfaces.
-* Transfer image file to the switch using "install source" command. (Note: "install source" does more optimizations to the image to make it efficient for the switch.) 
+* Check for configuration inconsistencies.
+* Fix any ISSU warnings
+* Choose the correct upgrade path (see the compatibility matrix).  Reach out to your Account Team with any questions.
+* Transfer image file to the switch in MLAG you are upgrading first.
 * Modify boot-config file to point to the desired image file.
-* Start the SSU process (`reload fast-boot`).
-* Verify that switch is running the new image.
+* Reload the switch.
+* Verify that the switch is successfully running the new image.
+* Repeat the steps on the other MLAG peer switch.
 
 ### SSU
 Smart System Upgrade (SSU) provides the ability to upgrade an EOS image with minimal packet loss and without user disruption without needing to make a switch a member of an MLAG. Comparing SSU upgrades to traditional upgrades and even Accelerated System Upgrades, a smart system upgrade is the optimal upgrade method when optimizing for minimal traffic loss. (< 100 ms).
@@ -34,14 +32,17 @@ During a SSU the control plane of the switch does go offline.  However, the last
 Check [https://www.arista.com/en/um-eos/eos-leaf-smart-system-upgrade-leaf-ssu](https://www.arista.com/en/um-eos/eos-leaf-smart-system-upgrade-leaf-ssu) for step-by-step instructions
 
 High Level Overview:
-* Check for configuration inconsistencies.
-* Fix any ISSU warnings
-* Choose the correct upgrade path (see the compatibility matrix).  Reach out to your Account Team with any questions.
-* Transfer image file to the switch in MLAG you are upgrading first.
+* Check the SSU process compatibility (see Platforms Supported and Features Supported - Verify with Account Team with any questions.)
+* Prepare switch for upgrade.
+* Disable unsupported features. 
+* Check the CPU for any unexpected traffic.
+* If spanning tree is enabled, check that all edge ports are configured as such and that the spanning tree agent is restartable.
+* Check to see that there are no flapping interfaces.
+* Transfer image file to the switch using "install source" command. (Note: "install source" does more optimizations to the image to make it efficient for the switch.) 
 * Modify boot-config file to point to the desired image file.
-* Reload the switch.
-* Verify that the switch is successfully running the new image.
-* Repeat the steps on the other MLAG peer switch.
+* Start the SSU process (`reload fast-boot`).
+* Verify that switch is running the new image.
+
 #### Requirements
 ##### Platform Compatability
 ###### Supported
