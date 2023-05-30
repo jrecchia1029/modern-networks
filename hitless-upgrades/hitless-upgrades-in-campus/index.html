@@ -407,22 +407,22 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#summary" class="md-nav__link">
     Summary
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#references" class="md-nav__link">
     References
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -637,22 +637,22 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#summary" class="md-nav__link">
     Summary
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#references" class="md-nav__link">
     References
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -917,9 +917,9 @@ switch(config-router-bgp)# graceful-restart grace-period 600
 switch(config-router-ospf)# graceful-restart grace-period 600
 </code></pre>
 <p>Again, forwarding decisions are made based on the state of the forwarding table just prior to the device's control plane going offline. So if there are any changes/updates received from L3 peers while the control plane is down, those updates will not make their way into the down device's forwarding table and traffic loss may occur. Also keep in mind that there are a number of caveats and limitations running SSU. So it is always recommended to have redundancy at this layer so you can upgrade more reliably using MLAG ISSU. If you choose to upgrade L3 devices using SSU, just be aware that there is a greater risk of network impact.</p>
-<h3 id="summary">Summary</h3>
+<h2 id="summary">Summary</h2>
 <p>There are so many new technologies that make upgrades easy and non-impactful. In this article, we discussed integrating these different mechanisms into different upgrade procedures using just the CLI. But these recipes can easily be automated with vendor specific or open source tools which allow for an even simpler upgrade experience. Considering this along with everything else we've discussed, upgrades should no longer be this scary thing everyone tries to avoid doing. While upgrades may have caused more trouble than good in the past, they should wind up saving you from trouble that comes from not upgrading going forward.</p>
-<h3 id="references">References</h3>
+<h2 id="references">References</h2>
 <p>https://www.arista.com/en/um-eos/eos-multi-chassis-link-aggregation
 https://www.arista.com/en/um-eos/eos-smart-system-upgrade
 https://arista.my.site.com/AristaCommunity/s/article/Hitless-Upgrades-The-Whats-The-Whys-and-The-Hows
