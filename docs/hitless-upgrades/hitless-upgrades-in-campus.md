@@ -1,12 +1,27 @@
 # Hitless Arista EOS Upgrades
 
 ## Introduction
-In my time as a services engineer with Arista, I've come across too many organizations running end of support code in their network. When you ask them why, the answer you almost always get is "it's impossible for us to get a window of downtime to upgrade". In today's world, where applications are required to be up literally 24/7, finding a window for upgrades is almost always an arduous task. This predicament has burdened organizations with outdated networks made up of unsupported hardware running unsupported software that is susceptible to who knows how many newly discovered security vulnerabilities. But there's no need to worry! Networking vendors have developed new innovations to seemlessly upgrade network infrastructure without having to worry about the typical downtime that comes along with it. Arista specifically has come out with MLAG ISSU (In-Service System Upgrade) and SSU (Smart System Upgrade). These upgrade methods allow for hitless network upgrades where packet loss is minimized and there is no disruption to users on the network. These innovations allow organizations to confidently keep their networks up-to-date while maintaining availability and further enhancing reliabilty.
+In my time as a services engineer with Arista, I've come across too many organizations running end of support code in their network. When you ask them why, the answer you almost always get is "it's impossible for us to get a window of downtime to upgrade". In today's world, where applications are required to be up literally 24/7, finding a window for upgrades is almost always an arduous task. This predicament has burdened organizations with outdated networks made up of unsupported hardware running unsupported software that is susceptible to who knows how many newly discovered security vulnerabilities. But there's no need to worry! Networking vendors have developed new innovations to seemlessly upgrade network infrastructure without having to worry about the typical downtime that comes along with it. Arista specifically has introduced MLAG ISSU (In-Service System Upgrade) and SSU (Smart System Upgrade). These upgrade methods allow for hitless network upgrades where packet loss is minimized and there is no disruption to users on the network. These innovations allow organizations to confidently keep their networks up-to-date while maintaining availability and further enhancing reliabilty.
 
 ## Hitless Upgrade Mechanisms
 
 ### MLAG ISSU
 With MLAG (multi-chassis link aggregation), two physical switches are linked to form one logical switch which provides redundancy and resiliency. MLAG ISSU (In-Service System Upgrade) allows users to upgrade the switches that make up an MLAG pair in a hitless fashion so long as all connected endpoints are dual-homed to the MLAG pair. The upgrades to each MLAG peer are performed serially, where EOS software gets upgraded on one MLAG peer without a change in the network topology and with minimal traffic loss on active MLAG interfaces thanks to traffic flowing over to the other active MLAG peer. Once the upgrade of the first MLAG peer is complete and the MLAG pair is back in a healthy state, the second peer MLAG peer gets upgraded in the same manner.
+
+### How To
+Check [https://aristanetworks.force.com/AristaCommunity/s/article/mlag-issu](https://aristanetworks.force.com/AristaCommunity/s/article/mlag-issu) for step-by-step instructions.
+
+High Level Overview:
+* Check the SSU process compatibility (see Platforms Supported and Features Supported - Verify with Account Team with any questions.)
+* Prepare switch for upgrade.
+* Disable unsupported features. 
+* Check the CPU for any unexpected traffic.
+* If spanning tree is enabled, check that all edge ports are configured as such and that the spanning tree agent is restartable.
+* Check to see that there are no flapping interfaces.
+* Transfer image file to the switch using "install source" command. (Note: "install source" does more optimizations to the image to make it efficient for the switch.) 
+* Modify boot-config file to point to the desired image file.
+* Start the SSU process (`reload fast-boot`).
+* Verify that switch is running the new image.
 
 ### SSU
 Smart System Upgrade (SSU) provides the ability to upgrade an EOS image with minimal packet loss and without user disruption without needing to make a switch a member of an MLAG. Comparing SSU upgrades to traditional upgrades and even Accelerated System Upgrades, a smart system upgrade is the optimal upgrade method when optimizing for minimal traffic loss. (< 100 ms).
@@ -15,6 +30,18 @@ Smart System Upgrade (SSU) provides the ability to upgrade an EOS image with min
 
 During a SSU the control plane of the switch does go offline.  However, the last known forwarding state for the switch is preserved through the upgrade and all forwarding decisions are based off of that state. This means that all devices that were connected to a switch prior to kicking off an SSU will operate as normal when the control plane goes offline. New addresses will not be learned while the control plane is offline though so new devices connecting to a switch undergoing SSU will not be able to connect to the network until the upgrade is complete.
 
+### How To
+Check [https://www.arista.com/en/um-eos/eos-leaf-smart-system-upgrade-leaf-ssu](https://www.arista.com/en/um-eos/eos-leaf-smart-system-upgrade-leaf-ssu) for step-by-step instructions
+
+High Level Overview:
+* Check for configuration inconsistencies.
+* Fix any ISSU warnings
+* Choose the correct upgrade path (see the compatibility matrix).  Reach out to your Account Team with any questions.
+* Transfer image file to the switch in MLAG you are upgrading first.
+* Modify boot-config file to point to the desired image file.
+* Reload the switch.
+* Verify that the switch is successfully running the new image.
+* Repeat the steps on the other MLAG peer switch.
 #### Requirements
 ##### Platform Compatability
 ###### Supported
