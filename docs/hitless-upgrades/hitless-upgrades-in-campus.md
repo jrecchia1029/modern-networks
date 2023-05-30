@@ -84,7 +84,7 @@ It is very important to take spanning tree into consideration when architecting 
 ###### STP Restartable
 In order to achieve a hitless upgrade, it is crucial that the STP agent on the switch being upgraded is in a restartable state. This is part of what ensures a successful MLAG failover.
 
-STP agent restartability requires consistent configuration between the peers of STP, LACP, MLAG, and switchport parameters. Additionaly, events triggering an STP state machine change, such as a flapping ethernet interface, may also briefly prevent the STP agent from being restartable. 
+STP agent restartability requires consistent configuration between the peers of STP, LACP, MLAG, and switchport parameters. Additionaly, events triggering an STP state machine change, such as a flapping ethernet interface (including spanning tree edge interfaces as of writing this article), may also briefly prevent the STP agent from being restartable. 
 
 > **Note**: If the STP agent is not restartable due to an STP state machine change, the resolution is to prevent any new state changes from occurring (by shutting down or fixing a flapping interface) and wait ~30 seconds for STP to become stable.
 
