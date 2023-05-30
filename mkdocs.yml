@@ -1,0 +1,7 @@
+site_name: Modern Networks
+site_url: https://modernnetworks.com/
+nav:
+    - Home: index.md
+    - Hitless Upgrades: hitless-upgrades/hitless-upgrades-in-campus.md
+theme:
+  name: material
