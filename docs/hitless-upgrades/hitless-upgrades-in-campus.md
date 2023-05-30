@@ -1,15 +1,15 @@
 # Hitless Arista EOS Upgrades
 
 ## Introduction
-In my time as a services engineer, I've come across too many organizations running end of support code in their network. When you ask them why, the answer you almost always get is "it's impossible for us to get a window of downtime to upgrade". In today's world, where applications are required to be up literally 24/7, finding a window for upgrades is almost always an arduous task. This predicament has burdened organizations with outdated networks made up of unsupported hardware running unsupported softwaare that is susceptible to who knows how many newly discovered security vulnerabilities. But fear not! Modern network designs and new advances in software upgrades have supplied the field with new types of arrows to seemlessly upgrade network infrastructure without having to worry about the typical downtime that comes along with it. Specifically, the introduction of MLAG ISSU (In-Service System Upgrade) and SSU (Smart System Upgrade) allows for hitless network upgrades where packet loss is minimized and there is no disruption to users on the network. These innovations allow organizations to confidently keep their networks up-to-date while maintaining availability and further enhancing reliabilty.
+In my time as a services engineer with Arista, I've come across too many organizations running end of support code in their network. When you ask them why, the answer you almost always get is "it's impossible for us to get a window of downtime to upgrade". In today's world, where applications are required to be up literally 24/7, finding a window for upgrades is almost always an arduous task. This predicament has burdened organizations with outdated networks made up of unsupported hardware running unsupported software that is susceptible to who knows how many newly discovered security vulnerabilities. But there's no need to worry! Networking vendors have developed new innovations to seemlessly upgrade network infrastructure without having to worry about the typical downtime that comes along with it. Arista specifically has come out with MLAG ISSU (In-Service System Upgrade) and SSU (Smart System Upgrade). These upgrade methods allow for hitless network upgrades where packet loss is minimized and there is no disruption to users on the network. These innovations allow organizations to confidently keep their networks up-to-date while maintaining availability and further enhancing reliabilty.
 
 ## Hitless Upgrade Mechanisms
 
 ### MLAG ISSU
- With MLAG (multi-chassis link aggregation), two physical switches are linked to form one logical switch which provides redundancy and resiliency. MLAG ISSU (In-Service System Upgrade) allows users to upgrade the switches that make up an MLAG pair in a hitless fashion so long as all connected endpoints are dual-homed to the MLAG pair. The upgrades to each MLAG peer are performed serially, where EOS software gets upgraded on one MLAG peer without a change in the network topology and with minimal traffic loss on active MLAG interfaces thanks to traffic flowing over to the other active MLAG peer. Once the upgrade of the first MLAG peer is complete and the MLAG pair is back in a healthy state, the second peer MLAG peer gets upgraded in the same manner.
+With MLAG (multi-chassis link aggregation), two physical switches are linked to form one logical switch which provides redundancy and resiliency. MLAG ISSU (In-Service System Upgrade) allows users to upgrade the switches that make up an MLAG pair in a hitless fashion so long as all connected endpoints are dual-homed to the MLAG pair. The upgrades to each MLAG peer are performed serially, where EOS software gets upgraded on one MLAG peer without a change in the network topology and with minimal traffic loss on active MLAG interfaces thanks to traffic flowing over to the other active MLAG peer. Once the upgrade of the first MLAG peer is complete and the MLAG pair is back in a healthy state, the second peer MLAG peer gets upgraded in the same manner.
 
 ### SSU
- Smart System Upgrade (SSU) provides the ability to upgrade an EOS image with minimal packet loss and without user disruption without needing to make a switch a member of an MLAG. Comparing SSU upgrades to traditional upgrades and even Accelerated System Upgrades, a smart system upgrade is the optimal upgrade method when optimizing for minimal traffic loss. (< 100 ms).
+Smart System Upgrade (SSU) provides the ability to upgrade an EOS image with minimal packet loss and without user disruption without needing to make a switch a member of an MLAG. Comparing SSU upgrades to traditional upgrades and even Accelerated System Upgrades, a smart system upgrade is the optimal upgrade method when optimizing for minimal traffic loss. (< 100 ms).
 
 ![](images/SSU-Diagram.png)
 
@@ -157,8 +157,8 @@ For each IDF, each switch in the MLAG pair should be upgraded in series using SS
 
 <pre>
 mlag configuration
-   reload-delay mlag  <b>0</b>
-   reload-delay non-mlag  <b>0</b>
+   reload-delay mlag <b>0</b>
+   reload-delay non-mlag <b>0</b>
 </pre>
 
 Since these switches are only layer 2 in our design, it won't be running any routing protocols so we do not need to set reload delay timers to give any time for routing protocols to restart and converge. Instead, we want all interfaces to jump immediately into an up state and begin forwarding traffic immediately.
@@ -205,12 +205,12 @@ This is the most important part of the upgrades as this MLAG pair is the root br
 
 So long as all devices connected to the Aggregation MLAG pair  (at layer 2 and layer 3) are connected to both switches, we can upgrade these switches using MLAG ISSU. Using MLAG ISSU will allow for any routing protocols being run to gracefully reconverge when the switch's control plane comes back online after the upgrade. If there are layer 2 devices which are single homed to these switches in MLAG, a completely hitless upgrade cannot be expected due to spanning-tree incompleteness and it is best to account for a period of downtime.
 
-Unlike the IDF MLAG switches, the MDF MLAG switches should have non-zero reload delay values. By default, a switch will be configured with some platform specific reload delay timers. It should not be necessary to change these reload delay timers but if they are configured explicitly, it is important that the non-mlag reload delay be higher than the mlag reload delay timer.
+Unlike the IDF MLAG switches, the MDF MLAG switches should have non-zero reload delay values. By default, a switch will be configured with some platform specific reload delay timers. It should not be necessary to change these reload delay timers but if they are configured explicitly, it is important that the non-mlag reload delay be lower than the mlag reload delay timer. This is to give more time for L3 convergence before the the L2 MLAG interfaces come up and begin forwarding traffic from endpoint devices.
 
 <pre>
 mlag configuration
-   reload-delay mlag  <b>< lower-value ></b>
-   reload-delay non-mlag  <b> < higher-value ></b>
+   reload-delay mlag <b>< higher-value ></b>
+   reload-delay non-mlag <b> < lower-value ></b>
 </pre>
 
 Like before, it is important to check the STP agent's restartability using `show spanning-tree instance detail` to ensure the STP root bridge doesn't change on reload and to make sure MLAG is in a healthy state with `show mlag config-sanity` and `show mlag`.
