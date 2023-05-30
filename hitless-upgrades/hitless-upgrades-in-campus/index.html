@@ -719,15 +719,15 @@
 <p>With MLAG (multi-chassis link aggregation), two physical switches are linked to form one logical switch which provides redundancy and resiliency. MLAG ISSU (In-Service System Upgrade) allows users to upgrade the switches that make up an MLAG pair in a hitless fashion so long as all connected endpoints are dual-homed to the MLAG pair. The upgrades to each MLAG peer are performed serially, where EOS software gets upgraded on one MLAG peer without a change in the network topology and with minimal traffic loss on active MLAG interfaces thanks to traffic flowing over to the other active MLAG peer. Once the upgrade of the first MLAG peer is complete and the MLAG pair is back in a healthy state, the second peer MLAG peer gets upgraded in the same manner.</p>
 <h4 id="how-to">How To</h4>
 <p>Check <a href="https://aristanetworks.force.com/AristaCommunity/s/article/mlag-issu">https://aristanetworks.force.com/AristaCommunity/s/article/mlag-issu</a> for step-by-step instructions.</p>
-<p>High Level Overview:
- - Check for configuration inconsistencies.
- - Fix any ISSU warnings
- - Choose the correct upgrade path (see the compatibility matrix).  Reach out to your Account Team with any questions.
- - Transfer image file to the switch in MLAG you are upgrading first.
- - Modify boot-config file to point to the desired image file.
- - Reload the switch.
- - Verify that the switch is successfully running the new image.
- - Repeat the steps on the other MLAG peer switch.</p>
+<p><strong>High Level Overview</strong>
+- Check for configuration inconsistencies.
+- Fix any ISSU warnings
+- Choose the correct upgrade path (see the compatibility matrix).  Reach out to your Account Team with any questions.
+- Transfer image file to the switch in MLAG you are upgrading first.
+- Modify boot-config file to point to the desired image file.
+- Reload the switch.
+- Verify that the switch is successfully running the new image.
+- Repeat the steps on the other MLAG peer switch.</p>
 <h3 id="ssu">SSU</h3>
 <p>Smart System Upgrade (SSU) provides the ability to upgrade an EOS image with minimal packet loss and without user disruption without needing to make a switch a member of an MLAG. Comparing SSU upgrades to traditional upgrades and even Accelerated System Upgrades, a smart system upgrade is the optimal upgrade method when optimizing for minimal traffic loss. (&lt; 100 ms).</p>
 <p><img alt="" src="../images/SSU-Diagram.png" /></p>
