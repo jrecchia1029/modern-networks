@@ -711,11 +711,13 @@
 <li>DCS-7300X, DCS-7320X, DCS-7300X3</li>
 </ul>
 <h5 id="features-not-supported">Features NOT Supported</h5>
-<p>NOTE: SSU still may not be supported on a device if the device is running one of the protocols below.
-- VRRP
-- BFD
-- PTP
-- VXLAN routing</p>
+<p><strong>NOTE</strong>: SSU still may not be supported on a device if the device is running one of the protocols below.</p>
+<ul>
+<li>VRRP</li>
+<li>BFD</li>
+<li>PTP</li>
+<li>VXLAN routing</li>
+</ul>
 <p>If that is in fact the case, another upgrade method like MLAG ISSU must be used.</p>
 <h5 id="spanning-tree">Spanning Tree</h5>
 <p>It is very important to take spanning tree into consideration when architecting a network that will use hitless upgrades. In order to perform an SSU on Arista EOS, Spanning Tree Protocol (STP) must either be disabled or configured as MSTP. Assuming MSTP is configured, all non-fabric interfaces must be configured as edge ports with bpdu guard enabled. This is to ensure that a switch undergoing a hitless upgrade will not cause a spanning tree topology change which could lead to a brief period of network downtime. In addition to this, SSU of the root bridge in a spanning tree topology will not be hitless unless the root bridge is a member of an MLAG pair where all devices connecting to the MLAG pair are dual homed. This way, a user can upgrade one side of the MLAG pair while the other side maintains spanning-tree state for the spanning tree topology. If the root bridge is not a member of an MLAG pair, there will be a root bridge change when the control plane for the switch goes down which will lead to a period of packet loss and network disruption.</p>
@@ -723,7 +725,7 @@
 <p>In order to achieve a hitless upgrade, it is crucial that the STP agent on the switch being upgraded is in a restartable state. This is part of what ensures a successful MLAG failover.</p>
 <p>STP agent restartability requires consistent configuration between the peers of STP, LACP, MLAG, and switchport parameters. Additionaly, events triggering an STP state machine change, such as a flapping ethernet interface, may also briefly prevent the STP agent from being restartable. </p>
 <blockquote>
-<p>Note: If the STP agent is not restartable due to an STP state machine change, the resolution is to prevent any new state changes from occurring (by shutting down or fixing a flapping interface) and wait ~30 seconds for STP to become stable.</p>
+<p><strong>Note</strong>: If the STP agent is not restartable due to an STP state machine change, the resolution is to prevent any new state changes from occurring (by shutting down or fixing a flapping interface) and wait ~30 seconds for STP to become stable.</p>
 </blockquote>
 <p>The restartable state of this agent can be seen by issuing the command <code>show spanning tree instance detail</code></p>
 <pre>
@@ -804,7 +806,7 @@ mlag configuration
    reload-delay non-mlag <b>0</b>
 </pre>
 
-<p>Since these switches are only layer 2 in our design, it won't be running any routing protocols so we do not need to set reload delay timers to give any time for routing protocols to restart and converge. Instead, we want all interfaces to jump immediately into an up state and begin forwarding traffic immediately.</p>
+<p>Since these switches are only layer 2 in our design, it won't be running any routing protocols so we do not need to set reload delay timers to give any time for routing processes to restart and converge. Instead, we want all interfaces to jump immediately into an up state and begin forwarding traffic immediately.</p>
 <p>Before kicking off the hitless upgrade, it is best to make sure STP is in a restartable state using the command <code>show spanning-tree instance detail</code> as mentioned earlier. This is an extra step just to be safe since we would also see a warning if we issued the <code>show reload fast-boot</code> or <code>reload fast-boot</code> command while the STP agent is not restartable.</p>
 <p>One final check worth doing is making sure MLAG is in a healthy state. We can do so by looking at the outputs of the commands below.</p>
 <pre>
