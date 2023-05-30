@@ -8,7 +8,7 @@ In my time as a services engineer with Arista, I've come across too many organiz
 ### MLAG ISSU
 With MLAG (multi-chassis link aggregation), two physical switches are linked to form one logical switch which provides redundancy and resiliency. MLAG ISSU (In-Service System Upgrade) allows users to upgrade the switches that make up an MLAG pair in a hitless fashion so long as all connected endpoints are dual-homed to the MLAG pair. The upgrades to each MLAG peer are performed serially, where EOS software gets upgraded on one MLAG peer without a change in the network topology and with minimal traffic loss on active MLAG interfaces thanks to traffic flowing over to the other active MLAG peer. Once the upgrade of the first MLAG peer is complete and the MLAG pair is back in a healthy state, the second peer MLAG peer gets upgraded in the same manner.
 
-### How To
+#### How To
 Check [https://aristanetworks.force.com/AristaCommunity/s/article/mlag-issu](https://aristanetworks.force.com/AristaCommunity/s/article/mlag-issu) for step-by-step instructions.
 
 High Level Overview:
@@ -30,7 +30,7 @@ Smart System Upgrade (SSU) provides the ability to upgrade an EOS image with min
 
 During a SSU the control plane of the switch does go offline.  However, the last known forwarding state for the switch is preserved through the upgrade and all forwarding decisions are based off of that state. This means that all devices that were connected to a switch prior to kicking off an SSU will operate as normal when the control plane goes offline. New addresses will not be learned while the control plane is offline though so new devices connecting to a switch undergoing SSU will not be able to connect to the network until the upgrade is complete.
 
-### How To
+#### How To
 Check [https://www.arista.com/en/um-eos/eos-leaf-smart-system-upgrade-leaf-ssu](https://www.arista.com/en/um-eos/eos-leaf-smart-system-upgrade-leaf-ssu) for step-by-step instructions
 
 High Level Overview:
