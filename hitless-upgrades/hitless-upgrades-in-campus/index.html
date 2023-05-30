@@ -719,32 +719,36 @@
 <p>With MLAG (multi-chassis link aggregation), two physical switches are linked to form one logical switch which provides redundancy and resiliency. MLAG ISSU (In-Service System Upgrade) allows users to upgrade the switches that make up an MLAG pair in a hitless fashion so long as all connected endpoints are dual-homed to the MLAG pair. The upgrades to each MLAG peer are performed serially, where EOS software gets upgraded on one MLAG peer without a change in the network topology and with minimal traffic loss on active MLAG interfaces thanks to traffic flowing over to the other active MLAG peer. Once the upgrade of the first MLAG peer is complete and the MLAG pair is back in a healthy state, the second peer MLAG peer gets upgraded in the same manner.</p>
 <h4 id="how-to">How To</h4>
 <p>Check <a href="https://aristanetworks.force.com/AristaCommunity/s/article/mlag-issu">https://aristanetworks.force.com/AristaCommunity/s/article/mlag-issu</a> for step-by-step instructions.</p>
-<p><strong>High Level Overview</strong>
-- Check for configuration inconsistencies.
-- Fix any ISSU warnings
-- Choose the correct upgrade path (see the compatibility matrix).  Reach out to your Account Team with any questions.
-- Transfer image file to the switch in MLAG you are upgrading first.
-- Modify boot-config file to point to the desired image file.
-- Reload the switch.
-- Verify that the switch is successfully running the new image.
-- Repeat the steps on the other MLAG peer switch.</p>
+<p><strong>High Level Overview</strong></p>
+<ul>
+<li>Check for configuration inconsistencies.</li>
+<li>Fix any ISSU warnings</li>
+<li>Choose the correct upgrade path (see the compatibility matrix).  Reach out to your Account Team with any questions.</li>
+<li>Transfer image file to the switch in MLAG you are upgrading first.</li>
+<li>Modify boot-config file to point to the desired image file.</li>
+<li>Reload the switch.</li>
+<li>Verify that the switch is successfully running the new image.</li>
+<li>Repeat the steps on the other MLAG peer switch.</li>
+</ul>
 <h3 id="ssu">SSU</h3>
 <p>Smart System Upgrade (SSU) provides the ability to upgrade an EOS image with minimal packet loss and without user disruption without needing to make a switch a member of an MLAG. Comparing SSU upgrades to traditional upgrades and even Accelerated System Upgrades, a smart system upgrade is the optimal upgrade method when optimizing for minimal traffic loss. (&lt; 100 ms).</p>
 <p><img alt="" src="../images/SSU-Diagram.png" /></p>
 <p>During a SSU the control plane of the switch does go offline.  However, the last known forwarding state for the switch is preserved through the upgrade and all forwarding decisions are based off of that state. This means that all devices that were connected to a switch prior to kicking off an SSU will operate as normal when the control plane goes offline. New addresses will not be learned while the control plane is offline though so new devices connecting to a switch undergoing SSU will not be able to connect to the network until the upgrade is complete.</p>
 <h4 id="how-to_1">How To</h4>
 <p>Check <a href="https://www.arista.com/en/um-eos/eos-leaf-smart-system-upgrade-leaf-ssu">https://www.arista.com/en/um-eos/eos-leaf-smart-system-upgrade-leaf-ssu</a> for step-by-step instructions</p>
-<p><strong>High Level Overview</strong>
-- Check the SSU process compatibility (see Platforms Supported and Features Supported - Verify with Account Team with any questions.)
-- Prepare switch for upgrade.
-- Disable unsupported features. 
-- Check the CPU for any unexpected traffic.
-- If spanning tree is enabled, check that all edge ports are configured as such and that the spanning tree agent is restartable.
-- Check to see that there are no flapping interfaces.
-- Transfer image file to the switch using "install source" command. (Note: "install source" does more optimizations to the image to make it efficient for the switch.) 
-- Modify boot-config file to point to the desired image file.
-- Start the SSU process (<code>reload fast-boot</code>).
-- Verify that switch is running the new image.</p>
+<p><strong>High Level Overview</strong></p>
+<ul>
+<li>Check the SSU process compatibility (see Platforms Supported and Features Supported - Verify with Account Team with any questions.)</li>
+<li>Prepare switch for upgrade.</li>
+<li>Disable unsupported features. </li>
+<li>Check the CPU for any unexpected traffic.</li>
+<li>If spanning tree is enabled, check that all edge ports are configured as such and that the spanning tree agent is restartable.</li>
+<li>Check to see that there are no flapping interfaces.</li>
+<li>Transfer image file to the switch using "install source" command. (Note: "install source" does more optimizations to the image to make it efficient for the switch.) </li>
+<li>Modify boot-config file to point to the desired image file.</li>
+<li>Start the SSU process (<code>reload fast-boot</code>).</li>
+<li>Verify that switch is running the new image.</li>
+</ul>
 <h4 id="requirements">Requirements</h4>
 <h5 id="platform-compatability">Platform Compatability</h5>
 <h6 id="supported">Supported</h6>
