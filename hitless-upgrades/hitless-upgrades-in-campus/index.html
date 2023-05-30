@@ -720,14 +720,14 @@
 <h4 id="how-to">How To</h4>
 <p>Check <a href="https://aristanetworks.force.com/AristaCommunity/s/article/mlag-issu">https://aristanetworks.force.com/AristaCommunity/s/article/mlag-issu</a> for step-by-step instructions.</p>
 <p>High Level Overview:
- * Check for configuration inconsistencies.
- * Fix any ISSU warnings
- * Choose the correct upgrade path (see the compatibility matrix).  Reach out to your Account Team with any questions.
- * Transfer image file to the switch in MLAG you are upgrading first.
- * Modify boot-config file to point to the desired image file.
- * Reload the switch.
- * Verify that the switch is successfully running the new image.
- * Repeat the steps on the other MLAG peer switch.</p>
+ - Check for configuration inconsistencies.
+ - Fix any ISSU warnings
+ - Choose the correct upgrade path (see the compatibility matrix).  Reach out to your Account Team with any questions.
+ - Transfer image file to the switch in MLAG you are upgrading first.
+ - Modify boot-config file to point to the desired image file.
+ - Reload the switch.
+ - Verify that the switch is successfully running the new image.
+ - Repeat the steps on the other MLAG peer switch.</p>
 <h3 id="ssu">SSU</h3>
 <p>Smart System Upgrade (SSU) provides the ability to upgrade an EOS image with minimal packet loss and without user disruption without needing to make a switch a member of an MLAG. Comparing SSU upgrades to traditional upgrades and even Accelerated System Upgrades, a smart system upgrade is the optimal upgrade method when optimizing for minimal traffic loss. (&lt; 100 ms).</p>
 <p><img alt="" src="../images/SSU-Diagram.png" /></p>
@@ -735,16 +735,16 @@
 <h4 id="how-to_1">How To</h4>
 <p>Check <a href="https://www.arista.com/en/um-eos/eos-leaf-smart-system-upgrade-leaf-ssu">https://www.arista.com/en/um-eos/eos-leaf-smart-system-upgrade-leaf-ssu</a> for step-by-step instructions</p>
 <p>High Level Overview:
- * Check the SSU process compatibility (see Platforms Supported and Features Supported - Verify with Account Team with any questions.)
- * Prepare switch for upgrade.
- * Disable unsupported features. 
- * Check the CPU for any unexpected traffic.
- * If spanning tree is enabled, check that all edge ports are configured as such and that the spanning tree agent is restartable.
- * Check to see that there are no flapping interfaces.
- * Transfer image file to the switch using "install source" command. (Note: "install source" does more optimizations to the image to make it efficient for the switch.) 
- * Modify boot-config file to point to the desired image file.
- * Start the SSU process (<code>reload fast-boot</code>).
- * Verify that switch is running the new image.</p>
+ - Check the SSU process compatibility (see Platforms Supported and Features Supported - Verify with Account Team with any questions.)
+ - Prepare switch for upgrade.
+ - Disable unsupported features. 
+ - Check the CPU for any unexpected traffic.
+ - If spanning tree is enabled, check that all edge ports are configured as such and that the spanning tree agent is restartable.
+ - Check to see that there are no flapping interfaces.
+ - Transfer image file to the switch using "install source" command. (Note: "install source" does more optimizations to the image to make it efficient for the switch.) 
+ - Modify boot-config file to point to the desired image file.
+ - Start the SSU process (<code>reload fast-boot</code>).
+ - Verify that switch is running the new image.</p>
 <h4 id="requirements">Requirements</h4>
 <h5 id="platform-compatability">Platform Compatability</h5>
 <h6 id="supported">Supported</h6>
