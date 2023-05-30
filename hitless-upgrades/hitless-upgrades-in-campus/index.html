@@ -800,8 +800,8 @@ Proceeding with reload
 <p>For each IDF, each switch in the MLAG pair should be upgraded in series using SSU. One important bit of configuration on these switches is the reload delay timers configured in MLAG.</p>
 <pre>
 mlag configuration
-   reload-delay mlag  <b>0</b>
-   reload-delay non-mlag  <b>0</b>
+   reload-delay mlag <b>0</b>
+   reload-delay non-mlag <b>0</b>
 </pre>
 
 <p>Since these switches are only layer 2 in our design, it won't be running any routing protocols so we do not need to set reload delay timers to give any time for routing protocols to restart and converge. Instead, we want all interfaces to jump immediately into an up state and begin forwarding traffic immediately.</p>
@@ -842,7 +842,7 @@ Active-full                        :                   1
 <h4 id="mdf-mlag-aggregation-switches">MDF MLAG Aggregation Switches</h4>
 <p>This is the most important part of the upgrades as this MLAG pair is the root bridge in the STP topology as well as the L3 gateway for the network. All devices connected to these switches should be dual homed for redundancy purposes. This way, when one side of the MLAG pair reboots during the upgrade, the other side can take ownership of STP control plane operations and take on any data plane traffic which flows over.</p>
 <p>So long as all devices connected to the Aggregation MLAG pair  (at layer 2 and layer 3) are connected to both switches, we can upgrade these switches using MLAG ISSU. Using MLAG ISSU will allow for any routing protocols being run to gracefully reconverge when the switch's control plane comes back online after the upgrade. If there are layer 2 devices which are single homed to these switches in MLAG, a completely hitless upgrade cannot be expected due to spanning-tree incompleteness and it is best to account for a period of downtime.</p>
-<p>Unlike the IDF MLAG switches, the MDF MLAG switches should have non-zero reload delay values. By default, a switch will be configured with some platform specific reload delay timers. It should not be necessary to change these reload delay timers but if they are configured explicitly, it is important that the mlag reload delay be higher than the non-mlag reload delay timer. This is to give more time for L3 convergence before the the L2 MLAG interfaces come up and begin forwarding traffic from endpoint devices.</p>
+<p>Unlike the IDF MLAG switches, the MDF MLAG switches should have non-zero reload delay values. By default, a switch will be configured with some platform specific reload delay timers. It should not be necessary to change these reload delay timers but if they are configured explicitly, it is important that the non-mlag reload delay be lower than the mlag reload delay timer. This is to give more time for L3 convergence before the the L2 MLAG interfaces come up and begin forwarding traffic from endpoint devices.</p>
 <pre>
 mlag configuration
    reload-delay mlag <b>< higher-value ></b>
