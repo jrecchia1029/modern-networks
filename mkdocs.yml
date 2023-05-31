@@ -1,5 +1,5 @@
-site_name: Modern Networks
-site_url: https://modernnetworks.com/
+site_name: The Modern Networks Compass
+site_url: https://modernnetworksnav.com/
 nav:
     - Home: index.md
     - Hitless Upgrades: hitless-upgrades/hitless-upgrades-in-campus.md
