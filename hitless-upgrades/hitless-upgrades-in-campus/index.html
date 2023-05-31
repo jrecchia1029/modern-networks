@@ -816,15 +816,15 @@ Warnings in the current configuration detected:
 STP is not currently restartable
 </code></pre>
 <h6 id="non-edge-ports">Non-Edge Ports</h6>
-<p><strong>Root/Alternate Role</strong>
-SSU is only supported with spanning-tree enabled when all non-edge ports are in either root or alternate roles.</p>
+<p><strong>Root/Alternate Role</strong></p>
+<p>SSU is only supported with spanning-tree enabled when all non-edge ports are in either root or alternate roles.</p>
 <p>The <code>show reload fast-boot</code> command will display a blocking reason if the non-edge ports are in a designated/backup role.</p>
 <pre><code>switch#show reload fast-boot
 'reload fast-boot' cannot proceed due to the following:
 One or more non-edge ports are in spanning-tree designated/backup role
 </code></pre>
-<p><strong>Bridge Assurance</strong>
-SSU is not supported with bridge assurance enabled on non-edge ports.</p>
+<p><strong>Bridge Assurance</strong></p>
+<p>SSU is not supported with bridge assurance enabled on non-edge ports.</p>
 <p>The <code>show reload fast-boot</code> command will display a blocking reason if the non-edge ports are in a designated/backup role.</p>
 <pre><code>switch#show reload fast-boot
 'reload fast-boot' cannot proceed due to the following:
