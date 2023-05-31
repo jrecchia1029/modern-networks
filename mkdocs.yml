@@ -1,7 +1,11 @@
-site_name: The Modern Networks Compass
+site_name: The Modern Networking Model
 site_url: https://modernnetworksnav.com/
 nav:
     - Home: index.md
-    - Hitless Upgrades: hitless-upgrades/hitless-upgrades-in-campus.md
+    # - Network Designs: []
+    - Automation: []
+    - Operations:
+      - Hitless Upgrades: hitless-upgrades/hitless-upgrades-in-campus.md
+      # - Migrations: 
 theme:
   name: material

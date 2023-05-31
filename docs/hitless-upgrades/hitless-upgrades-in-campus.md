@@ -293,22 +293,22 @@ Active-partial                     :                   1
 Active-full                        :                   0
 
 switch#show interfaces status
-Port       Name                   Status       Vlan      Duplex Speed  Type         Flags Encapsulation
-Et1                               errdisabled  1         auto   auto   1000BASE-T
-Et2                               errdisabled  1         auto   auto   1000BASE-T
-Et3                               errdisabled  1         auto   auto   1000BASE-T
+Port       Name                   Status       Vlan      Duplex Speed
+Et1                               errdisabled  1         auto   auto 
+Et2                               errdisabled  1         auto   auto 
+Et3                               errdisabled  1         auto   auto 
 ...
-Et45                              errdisabled  1         auto   auto   1000BASE-T
-Et46                              errdisabled  1         auto   auto   1000BASE-T
-Et47       MLAG peer link member  connected    in Po2000 a-full a-1G   1000BASE-T
-Et48       MLAG peer link member  connected    in Po2000 a-full a-1G   1000BASE-T
-Et49                              errdisabled  1         full   10G    10GBASE-CR
-Et50                              errdisabled  1         full   10G    10GBASE-CR
+Et45                              errdisabled  1         auto   auto 
+Et46                              errdisabled  1         auto   auto 
+Et47       MLAG peer link member  connected    in Po2000 a-full a-1G 
+Et48       MLAG peer link member  connected    in Po2000 a-full a-1G 
+Et49                              errdisabled  1         full   10G  
+Et50                              errdisabled  1         full   10G  
 ...
-Et53                              errdisabled  routed    full   10G    10GBASE-CR
-Et54                              errdisabled  1         full   25G    Not Present
-Ma1                               connected    routed    a-full a-1G   10/100/1000
-Po2000     MLAG peer link         connected    trunk     full   2G     N/A
+Et53                              errdisabled  routed    full   10G  
+Et54                              errdisabled  1         full   25G  
+Ma1                               connected    routed    a-full a-1G 
+Po2000     MLAG peer link         connected    trunk     full   2G   
 </pre>
 
 In the event that there is no layer 3 redundancy with the MDF MLAG pair, but all connected layer 2 devices are dual homed, it is possible to achieve a hitless upgrade by using SSU with Graceful Restart enabled. Some additional configuration is required though.
