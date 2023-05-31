@@ -115,7 +115,9 @@ Warnings in the current configuration detected:
 STP is not currently restartable
 ```
 ###### Non-Edge Ports
+
 **Root/Alternate Role**
+
 SSU is only supported with spanning-tree enabled when all non-edge ports are in either root or alternate roles.
 
 The `show reload fast-boot` command will display a blocking reason if the non-edge ports are in a designated/backup role.
@@ -127,6 +129,7 @@ One or more non-edge ports are in spanning-tree designated/backup role
 ```
 
 **Bridge Assurance**
+
 SSU is not supported with bridge assurance enabled on non-edge ports.
 
 The `show reload fast-boot` command will display a blocking reason if the non-edge ports are in a designated/backup role.
