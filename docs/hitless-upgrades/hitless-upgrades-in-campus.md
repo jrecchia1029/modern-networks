@@ -30,7 +30,7 @@ Smart System Upgrade (SSU) provides the ability to upgrade an EOS image with min
 During a SSU the control plane of the switch does go offline.  However, the last known forwarding state for the switch is preserved through the upgrade and all forwarding decisions are based off of that state. This means that all devices that were connected to a switch prior to kicking off an SSU will operate as normal when the control plane goes offline. New addresses will not be learned while the control plane is offline though so new devices connecting to a switch undergoing SSU will not be able to connect to the network until the upgrade is complete.
 
 #### How To
-Check [https://www.arista.com/en/um-eos/eos-leaf-smart-system-upgrade-leaf-ssu](https://www.arista.com/en/um-eos/eos-leaf-smart-system-upgrade-leaf-ssu) for step-by-step instructions
+Check [https://www.arista.com/en/um-eos/eos-smart-system-upgrade](https://www.arista.com/en/um-eos/eos-smart-system-upgrade) for step-by-step instructions
 
 **High Level Overview**
 
