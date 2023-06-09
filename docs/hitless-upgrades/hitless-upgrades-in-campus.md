@@ -187,7 +187,17 @@ Proceeding with reload
 > **Note:** If these switches are running a version of EOS prior to 4.29.2F, spanning tree will need to be disabled in order to perform SSU. This should be acceptable in our design since there are no loops from the member leafs to the upstream IDF MLAG leafs but it is important to check that all ports are forwarding before turning off spanning tree by issuing the command `show spanning-tree blockedports` and verifying that 0 ports are in a blocked state.
 
 #### IDF MLAG Leafs
-For each IDF, each switch in the MLAG pair should be upgraded in series using SSU. One important bit of configuration on these switches is the reload delay timers configured in MLAG.
+For each IDF, each switch in the MLAG pair should be upgraded in series using SSU.
+
+One important bit of configuration on these switches which will play an important role during the SSU process is the reload delay timers configured in MLAG. Under normal operating conditions, these IDF switches' reload delay timers should follow the standard defined in the Arista configuration guide where the reload-delay timers are platform dependent non-zero values. If you are not familiar with this concept, these non-zero reload delay timers on a switch put mlag and non-mlag interfaces into an errdisable state for a period of time just after the switch restarts in order to prevent connected devices from sending traffic before the switch is capable of forwarding consequently preventing blackholing of traffic.
+
+<pre>
+mlag configuration
+   reload-delay mlag <b>< lower-value ></b>
+   reload-delay non-mlag <b> < higher-value ></b>
+</pre>
+
+Having said all of that, SSU for these particular IDF switches is a special case. Since these switches are connected to hosts that are not dual homed, we do not want to set reload delay timers that put ports into an errdisable state for any period of time. Instead, we want all interfaces to jump immediately into an up state and begin forwarding traffic immediately. So just prior to the SSU, we want to drop these reload delay timers down to 0.
 
 <pre>
 mlag configuration
@@ -195,7 +205,7 @@ mlag configuration
    reload-delay non-mlag <b>0</b>
 </pre>
 
-Since these switches are only layer 2 in our design, it won't be running any routing protocols so we do not need to set reload delay timers to give any time for routing processes to restart and converge. Instead, we want all interfaces to jump immediately into an up state and begin forwarding traffic immediately.
+After the upgrade is complete, it is important to change these reload-delay timers back to what they were before the SSU. You might be thinking, "why can't I just leave the reload delay timers at 0 all the time?". Well the reason we change the reload delay timers back is to protect against a random or accidental reboot of the switch. If the switch reboots not using SSU, forwarding state is not preserved. This means when the switch comes back up, it will need to restart all of its forwarding agents and relearn state.  If all interfaces are up and traffic to/from member leafs is being received during this restart period, it will be dropped. If, however, interfaces are in an errdisable state, traffic to/from member leafs will flow through the MLAG peer that is still up and active and there will be no loss.
 
 Before kicking off the hitless upgrade, it is best to make sure STP is in a restartable state using the command `show spanning-tree instance detail` as mentioned earlier. This is an extra step just to be safe since we would also see a warning if we issued the `show reload fast-boot` or `reload fast-boot` command while the STP agent is not restartable.
 
@@ -239,13 +249,15 @@ This is the most important part of the upgrades as this MLAG pair is the root br
 
 So long as all devices connected to the Aggregation MLAG pair  (at layer 2 and layer 3) are connected to both switches, we can upgrade these switches using MLAG ISSU. Using MLAG ISSU will allow for any routing protocols being run to gracefully reconverge when the switch's control plane comes back online after the upgrade. If there are layer 2 devices which are single homed to these switches in MLAG, a completely hitless upgrade cannot be expected due to spanning-tree incompleteness and it is best to account for a period of downtime.
 
-Unlike the IDF MLAG switches, the MDF MLAG switches should have non-zero reload delay values. By default, a switch will be configured with some platform specific reload delay timers. It should not be necessary to change these reload delay timers but if they are configured explicitly, it is important that the mlag reload delay be lower than the mlag reload delay timer. This is to give more time for the L2 convergence to settle which helps prevent blackholing of any traffic coming from upstream L3 devices.
+Since we are using MLAG ISSU to upgrade the MDF MLAG switches, these switches should have non-zero reload delay values.
 
 <pre>
 mlag configuration
    reload-delay mlag <b>< lower-value ></b>
    reload-delay non-mlag <b> < higher-value ></b>
 </pre>
+
+Unlike with the IDF MLAG switches, we will **not** change these reload delay timers to 0 since all connected devices are dual homed and we want traffic to flow through the up/active MLAG peer while the peer being upgraded  reboots.
 
 Like before, it is important to check the STP agent's restartability using `show spanning-tree instance detail` to ensure the STP root bridge doesn't change on reload and to make sure MLAG is in a healthy state with `show mlag config-sanity` and `show mlag`.
 
