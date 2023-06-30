@@ -11,11 +11,11 @@
         <link rel="canonical" href="https://modernnetworksnav.com/hitless-upgrades/hitless-upgrades-in-campus/">
       
       
-        <link rel="prev" href="../..">
+        <link rel="prev" href="../../network-automation/fundamentals/fundamentals/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.17">
     
     
       
@@ -196,10 +196,44 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Automation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Automation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
-        Automation
+      <a href="../../network-automation/fundamentals/fundamentals/" class="md-nav__link">
+        Fundamentals
       </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -298,8 +332,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#how-to" class="md-nav__link">
-    How To
+  <a href="#performing-the-upgrade" class="md-nav__link">
+    Performing the Upgrade
   </a>
   
 </li>
@@ -318,8 +352,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#how-to_1" class="md-nav__link">
-    How To
+  <a href="#performing-the-upgrade_1" class="md-nav__link">
+    Performing the Upgrade
   </a>
   
 </li>
@@ -555,8 +589,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#how-to" class="md-nav__link">
-    How To
+  <a href="#performing-the-upgrade" class="md-nav__link">
+    Performing the Upgrade
   </a>
   
 </li>
@@ -575,8 +609,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#how-to_1" class="md-nav__link">
-    How To
+  <a href="#performing-the-upgrade_1" class="md-nav__link">
+    Performing the Upgrade
   </a>
   
 </li>
@@ -768,10 +802,10 @@
 <h2 id="hitless-upgrade-mechanisms">Hitless Upgrade Mechanisms</h2>
 <h3 id="mlag-issu">MLAG ISSU</h3>
 <p>With MLAG (multi-chassis link aggregation), two physical switches are linked to form one logical switch which provides redundancy and resiliency. MLAG ISSU (In-Service System Upgrade) allows users to upgrade the switches that make up an MLAG pair in a hitless fashion so long as all connected endpoints are dual-homed to the MLAG pair. The upgrades to each MLAG peer are performed serially, where EOS software gets upgraded on one MLAG peer without a change in the network topology and with minimal traffic loss on active MLAG interfaces thanks to traffic flowing over to the other active MLAG peer. Once the upgrade of the first MLAG peer is complete and the MLAG pair is back in a healthy state, the second peer MLAG peer gets upgraded in the same manner.</p>
-<h4 id="how-to">How To</h4>
+<h4 id="performing-the-upgrade">Performing the Upgrade</h4>
 <p>Check <a href="https://aristanetworks.force.com/AristaCommunity/s/article/mlag-issu">https://aristanetworks.force.com/AristaCommunity/s/article/mlag-issu</a> for step-by-step instructions.</p>
 <p><strong>High Level Overview</strong></p>
-<ul>
+<ol>
 <li>Check for configuration inconsistencies.</li>
 <li>Fix any ISSU warnings</li>
 <li>Choose the correct upgrade path (see the compatibility matrix).  Reach out to your Account Team with any questions.</li>
@@ -780,15 +814,15 @@
 <li>Reload the switch.</li>
 <li>Verify that the switch is successfully running the new image.</li>
 <li>Repeat the steps on the other MLAG peer switch.</li>
-</ul>
+</ol>
 <h3 id="ssu">SSU</h3>
 <p>Smart System Upgrade (SSU) provides the ability to upgrade an EOS image with minimal packet loss and without user disruption without needing to make a switch a member of an MLAG. Comparing SSU upgrades to traditional upgrades and even Accelerated System Upgrades, a smart system upgrade is the optimal upgrade method when optimizing for minimal traffic loss. (&lt; 100 ms).</p>
 <p><img alt="" src="../images/SSU-Diagram.png" /></p>
 <p>During a SSU the control plane of the switch does go offline.  However, the last known forwarding state for the switch is preserved through the upgrade and all forwarding decisions are based off of that state. This means that all devices that were connected to a switch prior to kicking off an SSU will operate as normal when the control plane goes offline. New addresses will not be learned while the control plane is offline though so new devices connecting to a switch undergoing SSU will not be able to connect to the network until the upgrade is complete.</p>
-<h4 id="how-to_1">How To</h4>
+<h4 id="performing-the-upgrade_1">Performing the Upgrade</h4>
 <p>Check <a href="https://www.arista.com/en/um-eos/eos-smart-system-upgrade">https://www.arista.com/en/um-eos/eos-smart-system-upgrade</a> for step-by-step instructions</p>
 <p><strong>High Level Overview</strong></p>
-<ul>
+<ol>
 <li>Check the SSU process compatibility (see Platforms Supported and Features Supported - Verify with Account Team with any questions.)</li>
 <li>Prepare switch for upgrade.</li>
 <li>Disable unsupported features. </li>
@@ -799,7 +833,7 @@
 <li>Modify boot-config file to point to the desired image file.</li>
 <li>Start the SSU process (<code>reload fast-boot</code>).</li>
 <li>Verify that switch is running the new image.</li>
-</ul>
+</ol>
 <h4 id="requirements">Requirements</h4>
 <h5 id="platform-compatability">Platform Compatability</h5>
 <h6 id="supported">Supported</h6>
@@ -1099,7 +1133,7 @@ switch(config-router-ospf)# graceful-restart grace-period 600
     <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.b4d07000.min.js"></script>
+      <script src="../../assets/javascripts/bundle.b425cdc4.min.js"></script>
       
     
   </body>
