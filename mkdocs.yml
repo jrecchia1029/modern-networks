@@ -3,7 +3,8 @@ site_url: https://modernnetworksnav.com/
 nav:
     - Home: index.md
     # - Network Designs: []
-    - Automation: []
+    - Automation:
+      - Fundamentals: network-automation/fundamentals/fundamentals.md
     - Operations:
       - Hitless Upgrades: hitless-upgrades/hitless-upgrades-in-campus.md
       # - Migrations: 
