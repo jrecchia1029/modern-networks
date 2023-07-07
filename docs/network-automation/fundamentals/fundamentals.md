@@ -10,4 +10,4 @@ Originally, I was going to attempt to write some sort of mini-series that walks 
 
 <p style="text-align: center;"><a href="https://aristanetworks.github.io/avd-workshops/">Arista Networks Automation Fundamentals Workshop</a></p>
 
-The whole workshop does take about a day to complete but it's a great resource for beginners looking to get serious with network automation.
+The whole workshop takes about a day to complete but it's a great resource for beginners looking to get serious with network automation.
