@@ -5,6 +5,7 @@ nav:
     # - Network Designs: []
     - Automation:
       - Fundamentals: network-automation/fundamentals/fundamentals.md
+      - Git: network-automation/fundamentals/git.md
     - Operations:
       - Hitless Upgrades: hitless-upgrades/hitless-upgrades-in-campus.md
       # - Migrations: 
