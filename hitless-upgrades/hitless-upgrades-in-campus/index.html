@@ -381,11 +381,11 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#platform-compatability" class="md-nav__link">
-    Platform Compatability
+  <a href="#platform-compatibility" class="md-nav__link">
+    Platform Compatibility
   </a>
   
-    <nav class="md-nav" aria-label="Platform Compatability">
+    <nav class="md-nav" aria-label="Platform Compatibility">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -638,11 +638,11 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#platform-compatability" class="md-nav__link">
-    Platform Compatability
+  <a href="#platform-compatibility" class="md-nav__link">
+    Platform Compatibility
   </a>
   
-    <nav class="md-nav" aria-label="Platform Compatability">
+    <nav class="md-nav" aria-label="Platform Compatibility">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -812,7 +812,7 @@
 
 <h1 id="hitless-arista-eos-upgrades">Hitless Arista EOS Upgrades</h1>
 <h2 id="introduction">Introduction</h2>
-<p>In my time in the field with Arista, I've come across too many organizations running end of support code in their network. When you ask them why, the answer you almost always get is "it's impossible for us to get a window of downtime to upgrade". In today's world, where applications are required to be up literally 24/7, finding a window for upgrades is more often than not an arduous task. This predicament has burdened organizations with outdated networks made up of unsupported hardware running unsupported software that is susceptible to who knows how many newly discovered security vulnerabilities. But there's no need to worry! Networking vendors have developed new innovations to seemlessly upgrade network infrastructure without having to worry about the typical downtime that comes along with it. Arista specifically has introduced MLAG ISSU (In-Service System Upgrade) and SSU (Smart System Upgrade). These upgrade methods allow for hitless network upgrades where packet loss is minimized and there is no disruption to users on the network. These innovations allow organizations to confidently keep their networks up-to-date while maintaining availability and further enhancing reliabilty.</p>
+<p>In my time in the field with Arista, I've come across too many organizations running end of support code in their network. When you ask them why, the answer you almost always get is "it's impossible for us to get a window of downtime to upgrade". In today's world, where applications are required to be up literally 24/7, finding a window for upgrades is more often than not an arduous task. This predicament has burdened organizations with outdated networks made up of unsupported hardware running unsupported software that is susceptible to who knows how many newly discovered security vulnerabilities. But there's no need to worry! Networking vendors have developed new innovations to seamlessly upgrade network infrastructure without having to worry about the typical downtime that comes along with it. Arista specifically has introduced MLAG ISSU (In-Service System Upgrade) and SSU (Smart System Upgrade). These upgrade methods allow for hitless network upgrades where packet loss is minimized and there is no disruption to users on the network. These innovations allow organizations to confidently keep their networks up-to-date while maintaining availability and further enhancing reliability.</p>
 <h2 id="hitless-upgrade-mechanisms">Hitless Upgrade Mechanisms</h2>
 <h3 id="mlag-issu">MLAG ISSU</h3>
 <p>With MLAG (multi-chassis link aggregation), two physical switches are linked to form one logical switch which provides redundancy and resiliency. MLAG ISSU (In-Service System Upgrade) allows users to upgrade the switches that make up an MLAG pair in a hitless fashion so long as all connected endpoints are dual-homed to the MLAG pair. The upgrades to each MLAG peer are performed serially, where EOS software gets upgraded on one MLAG peer without a change in the network topology and with minimal traffic loss on active MLAG interfaces thanks to traffic flowing over to the other active MLAG peer. Once the upgrade of the first MLAG peer is complete and the MLAG pair is back in a healthy state, the second peer MLAG peer gets upgraded in the same manner.</p>
@@ -849,7 +849,7 @@
 <li>Verify that switch is running the new image.</li>
 </ol>
 <h4 id="requirements">Requirements</h4>
-<h5 id="platform-compatability">Platform Compatability</h5>
+<h5 id="platform-compatibility">Platform Compatibility</h5>
 <h6 id="supported">Supported</h6>
 <ul>
 <li>DCS-7050SX, DCS-7050TX, DCS-7050QX</li>
@@ -858,8 +858,12 @@
 <li>DCS-7060X, DCS-7060X2</li>
 <li>DCS-7260QX</li>
 <li>CCS-720 (4.24.X)</li>
+<li>CCS-720DP (4.30.1F)</li>
+<li>CCS-722XP (4.30.1F)</li>
+<li>CCS-710DT (4.30.1F)</li>
 <li>7280TR-48C6 (4.22.0F)</li>
 <li>7280SR-48C6 (4.22.1F)</li>
+<li>DCS-7010TX (4.30.1F)</li>
 </ul>
 <h6 id="soon-to-be-supported">Soon to be Supported</h6>
 <ul>
@@ -890,7 +894,7 @@
 <p>It is very important to take spanning tree into consideration when architecting a network that will use hitless upgrades. In order to perform an SSU on Arista EOS, Spanning Tree Protocol (STP) must either be disabled or configured as MSTP. Assuming MSTP is configured, all non-fabric interfaces must be configured as edge ports with bpdu guard enabled. This is to ensure that a switch undergoing a hitless upgrade will not cause a spanning tree topology change which could lead to a brief period of network downtime. In addition to this, SSU of the root bridge in a spanning tree topology will not be hitless unless the root bridge is a member of an MLAG pair where all devices connecting to the MLAG pair are dual homed. This way, a user can upgrade one side of the MLAG pair while the other side maintains spanning-tree state for the spanning tree topology. If the root bridge is not a member of an MLAG pair, there will be a root bridge change when the control plane for the switch goes down which will lead to a period of packet loss and network disruption.</p>
 <h6 id="stp-restartable">STP Restartable</h6>
 <p>In order to achieve a hitless upgrade, it is crucial that the STP agent on the switch being upgraded is in a restartable state. This is part of what ensures a successful MLAG failover.</p>
-<p>STP agent restartability requires consistent configuration between the peers of STP, LACP, MLAG, and switchport parameters. Additionaly, events triggering an STP state machine change, such as a flapping ethernet interface (including spanning tree edge interfaces as of writing this article), may also briefly prevent the STP agent from being restartable. </p>
+<p>STP agent restartability requires consistent configuration between the peers of STP, LACP, MLAG, and switchport parameters. Additionally, events triggering an STP state machine change, such as a flapping ethernet interface (including spanning tree edge interfaces as of writing this article), may also briefly prevent the STP agent from being restartable. </p>
 <blockquote>
 <p><strong>Note</strong>: If the STP agent is not restartable due to an STP state machine change, the resolution is to prevent any new state changes from occurring (by shutting down or fixing a flapping interface) and wait ~30 seconds for STP to become stable.</p>
 </blockquote>
@@ -1105,6 +1109,7 @@ switch(config-router-ospf)# graceful-restart grace-period 600
 <li><a href="https://arista.my.site.com/AristaCommunity/s/article/mlag-issu">https://arista.my.site.com/AristaCommunity/s/article/mlag-issu</a></li>
 <li><a href="https://www.arista.com/en/um-eos/eos-spanning-tree-protocol">https://www.arista.com/en/um-eos/eos-spanning-tree-protocol</a></li>
 <li><a href="https://www.arista.com/en/support/toi/eos-4-29-2f/17200-support-for-mstp-ssu-with-network-ports">https://www.arista.com/en/support/toi/eos-4-29-2f/17200-support-for-mstp-ssu-with-network-ports</a></li>
+<li><a href="https://www.arista.com/en/support/toi/eos-4-30-1f/17698-smart-system-upgrade-on-ccs-720dp-ccs-710dt-ccs-722xp-and-dcs-7010tx">https://www.arista.com/en/support/toi/eos-4-30-1f/17698-smart-system-upgrade-on-ccs-720dp-ccs-710dt-ccs-722xp-and-dcs-7010tx</a></li>
 <li><a href="https://arista.my.site.com/AristaCommunity/s/question/0D52I00007ERqE2SAL/mlag-reloaddelay">https://arista.my.site.com/AristaCommunity/s/question/0D52I00007ERqE2SAL/mlag-reloaddelay</a></li>
 </ul>
 
